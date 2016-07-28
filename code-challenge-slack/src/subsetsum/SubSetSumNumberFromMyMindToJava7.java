@@ -26,6 +26,7 @@ import java.util.*;
 public class SubSetSumNumberFromMyMindToJava7 {
 
     private static final int MAX_MAGIC_NUMBER = 29;
+    private static final int RANGE_AROUND_MAGIC_NUMBER = MAX_MAGIC_NUMBER - 5 ;
 
     public static void main(String[] args) {
         SubSetSumNumberFromMyMindToJava7 subSetSumNumberFromMyMindToJava7 = new SubSetSumNumberFromMyMindToJava7();
@@ -81,7 +82,7 @@ public class SubSetSumNumberFromMyMindToJava7 {
                 index++;
             }
             Integer sumResult = sum(result);
-            if (sumResult >= magicNumber - 5 && sumResult < magicNumber)
+            if (sumResult >= RANGE_AROUND_MAGIC_NUMBER && sumResult < magicNumber)
                 finalResult.add(result);
         }
         return finalResult;
