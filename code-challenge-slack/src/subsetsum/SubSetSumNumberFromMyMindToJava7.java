@@ -65,16 +65,15 @@ public class SubSetSumNumberFromMyMindToJava7 {
     }
 
     private Set<int[]> subSetSumNumbers(int magicNumber, Integer[] numbersSet) {
-        List<Integer> numbers = Arrays.asList(numbersSet);
-        Collections.sort(numbers, Collections.reverseOrder());
-        int totalOfIterations = numbers.size();
+        Arrays.sort(numbersSet, Collections.reverseOrder());
+        int totalOfIterations = numbersSet.length;
         Set<int[]> finalResult = new LinkedHashSet<>();
         for (int i = 0; i < totalOfIterations - 1; i++) {
             int[] result = new int[totalOfIterations];
-            result[i] = numbers.get(i);
+            result[i] = numbersSet[i];
             int index = i + 1;
             while (index < totalOfIterations) {
-                result[index] = numbers.get(index);
+                result[index] = numbersSet[index];
                 boolean invalidSum = !((sum(result)) < magicNumber);
                 if (invalidSum) {
                     result[index] = 0;
