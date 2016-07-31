@@ -1,6 +1,9 @@
 package subsetsum;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * You're given two inputs: a positive integer x and an array A of
@@ -26,7 +29,7 @@ import java.util.*;
 public class SubSetSumNumberFromMyMindToJava7 {
 
     private static final int MAX_MAGIC_NUMBER = 29;
-    private static final int RANGE_AROUND_MAGIC_NUMBER = MAX_MAGIC_NUMBER - 5 ;
+    private static final int RANGE_AROUND_MAGIC_NUMBER = MAX_MAGIC_NUMBER - 5;
 
     public static void main(String[] args) {
         SubSetSumNumberFromMyMindToJava7 subSetSumNumberFromMyMindToJava7 = new SubSetSumNumberFromMyMindToJava7();
@@ -50,50 +53,53 @@ public class SubSetSumNumberFromMyMindToJava7 {
     public void challengeAccepted(int magicNumber, Integer[] numbersSet) {
         System.out.println();
         System.out.println("Output: ");
-        Set<int[]> subSetSumNumbers = subSetSumNumbers(magicNumber, numbersSet);
-        for (int[] result : subSetSumNumbers) {
-            int newArrayLength = 1;
-            int newArrayIndex = 0;
-            int[] newOutputArray = new int[newArrayLength];
-            for (int i = 0; i < result.length; i++) {
-                if (result[i] != 0) {
-                    newOutputArray = Arrays.copyOf(newOutputArray, newArrayLength++);
-                    newOutputArray[newArrayIndex++] = result[i];
-                }
-            }
-            System.out.println(Arrays.toString(newOutputArray) + " = " + sum(newOutputArray));
+        int[][] integers = subSetSumNumbers(magicNumber, numbersSet);
+        for (int[] array : integers) {
+            System.out.println(Arrays.toString(array) + " = " + sum(array));
         }
     }
 
-    private Set<int[]> subSetSumNumbers(int magicNumber, Integer[] numbersSet) {
+    private int[][] subSetSumNumbers(final int magicNumber, final Integer[] numbersSet) {
         Arrays.sort(numbersSet, Collections.reverseOrder());
         int totalOfIterations = numbersSet.length;
         Set<int[]> finalResult = new LinkedHashSet<>();
         for (int i = 0; i < totalOfIterations - 1; i++) {
-            int[] result = new int[totalOfIterations];
-            result[i] = numbersSet[i];
+            int[] filter = new int[totalOfIterations];
+            filter[i] = numbersSet[i];
             int index = i + 1;
             while (index < totalOfIterations) {
-                result[index] = numbersSet[index];
-                boolean invalidSum = !((sum(result)) < magicNumber);
-                if (invalidSum) {
-                    result[index] = 0;
-                }
+                filter[index] = numbersSet[index];
+                boolean invalidSum = !((sum(filter)) < magicNumber);
+                if (invalidSum)
+                    filter[index] = 0;
                 index++;
             }
-            Integer sumResult = sum(result);
-            if (sumResult >= RANGE_AROUND_MAGIC_NUMBER && sumResult < magicNumber)
-                finalResult.add(result);
+            int sumResult = sum(filter);
+            if (sumResult >= RANGE_AROUND_MAGIC_NUMBER && sumResult < magicNumber) {
+                finalResult.add(removeZeros(filter));
+            }
         }
-        return finalResult;
+        return finalResult.toArray(new int[][]{});
     }
 
-    private Integer sum(int[] elements) {
-        int sum = 0;
-        for (Integer e : elements) {
-            sum += e;
+    private int[] removeZeros(final int[] array) {
+        int[] newOutputArray = new int[0];
+        int newArrayIndex = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != 0) {
+                newOutputArray = Arrays.copyOf(newOutputArray, newOutputArray.length + 1);
+                newOutputArray[newArrayIndex++] = array[i];
+            }
         }
+        return newOutputArray;
+    }
+
+    private int sum(int[] elements) {
+        int sum = 0;
+        if (elements != null)
+            for (Integer e : elements)
+                if (null != e)
+                    sum += e;
         return sum;
     }
-
 }
