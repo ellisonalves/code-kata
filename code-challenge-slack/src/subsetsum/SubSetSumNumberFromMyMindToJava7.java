@@ -56,8 +56,6 @@ public class SubSetSumNumberFromMyMindToJava7 {
                 bigSet[i] = random.nextInt(SUM);
             }
 
-            System.out.println(Arrays.toString(bigSet));
-
             subSetSumNumberFromMyMindToJava7.challengeAccepted(bigSet);
         }
     }
@@ -74,6 +72,7 @@ public class SubSetSumNumberFromMyMindToJava7 {
         for (int[] array : integers)
             System.out.println(Arrays.toString(array) + " = " + sum(array));
 
+        System.out.println(String.format("Total of subsets: %d", integers.length));
         System.out.println(String.format("Total time running: %d seconds", TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS)));
     }
 
@@ -99,9 +98,7 @@ public class SubSetSumNumberFromMyMindToJava7 {
                 if (finalResult.isEmpty()) {
                     maxPossibleSum = actualSetSum;
                     finalResult.add(removeZeros(filter));
-//                    finalResult.add(filter);
                 } else if (actualSetSum == maxPossibleSum)
-//                    finalResult.add(filter);
                     finalResult.add(removeZeros(filter));
             }
         }
@@ -111,12 +108,10 @@ public class SubSetSumNumberFromMyMindToJava7 {
     private int[] removeZeros(final int[] array) {
         int[] newOutputArray = new int[0];
         int newArrayIndex = 0;
-        List<Integer> set = new ArrayList<>();
         for (int i = 0; i < array.length; i++) {
             if (array[i] != 0) {
                 newOutputArray = Arrays.copyOf(newOutputArray, newOutputArray.length + 1);
                 newOutputArray[newArrayIndex++] = array[i];
-                set.add(array[i]);
             }
         }
         return newOutputArray;
