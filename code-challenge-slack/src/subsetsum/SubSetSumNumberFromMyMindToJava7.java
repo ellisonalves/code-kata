@@ -1,9 +1,6 @@
 package subsetsum;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -29,11 +26,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class SubSetSumNumberFromMyMindToJava7 {
 
-    private static final int SUM = 29;
+    private static final int SUM = 1200;
 
     public static void main(String... args) {
         SubSetSumNumberFromMyMindToJava7 subSetSumNumberFromMyMindToJava7 = new SubSetSumNumberFromMyMindToJava7();
-        long begin = System.nanoTime();
         if (args.length > 0) {
             Integer[] argsAsInteger = new Integer[args.length];
             for (int i = 0; i < args.length; i++)
@@ -52,18 +48,33 @@ public class SubSetSumNumberFromMyMindToJava7 {
 
             subSetSumNumberFromMyMindToJava7.challengeAccepted(new Integer[]{2, 8, 3, 9, 11, 12, -1, -2, 15, 30, 38});
             // [30, -2] = 28
-        }
-        long end = System.nanoTime();
 
-        System.out.println("Total time running: " + String.format("%d millis", TimeUnit.NANOSECONDS.toMillis(end - begin)));
+            final int BIG_ARRAY = 1000;
+            Integer[] bigSet = new Integer[BIG_ARRAY];
+            Random random = new Random();
+            for (int i = 0; i < BIG_ARRAY; i++) {
+                bigSet[i] = random.nextInt(SUM);
+            }
+
+            System.out.println(Arrays.toString(bigSet));
+
+            subSetSumNumberFromMyMindToJava7.challengeAccepted(bigSet);
+        }
     }
 
     public void challengeAccepted(Integer[] numbersSet) {
         System.out.println();
         System.out.println("Output: ");
+        long start = System.nanoTime();
+
         int[][] integers = subSetSumNumbers(numbersSet);
+
+        long duration = System.nanoTime() - start;
+
         for (int[] array : integers)
             System.out.println(Arrays.toString(array) + " = " + sum(array));
+
+        System.out.println(String.format("Total time running: %d seconds", TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS)));
     }
 
     private int[][] subSetSumNumbers(final Integer[] numbersSet) {
@@ -88,7 +99,9 @@ public class SubSetSumNumberFromMyMindToJava7 {
                 if (finalResult.isEmpty()) {
                     maxPossibleSum = actualSetSum;
                     finalResult.add(removeZeros(filter));
+//                    finalResult.add(filter);
                 } else if (actualSetSum == maxPossibleSum)
+//                    finalResult.add(filter);
                     finalResult.add(removeZeros(filter));
             }
         }
@@ -98,10 +111,12 @@ public class SubSetSumNumberFromMyMindToJava7 {
     private int[] removeZeros(final int[] array) {
         int[] newOutputArray = new int[0];
         int newArrayIndex = 0;
+        List<Integer> set = new ArrayList<>();
         for (int i = 0; i < array.length; i++) {
             if (array[i] != 0) {
                 newOutputArray = Arrays.copyOf(newOutputArray, newOutputArray.length + 1);
                 newOutputArray[newArrayIndex++] = array[i];
+                set.add(array[i]);
             }
         }
         return newOutputArray;
