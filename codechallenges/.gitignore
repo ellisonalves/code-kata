@@ -1,0 +1,12 @@
+subsets/build/classes/main/com/codechallenges/subsets/sum/SubSetSumNumberFromMyMindToJava7.class
+*.iml
+*idea/
+*.gradle/
+
+build/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+

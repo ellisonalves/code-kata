@@ -1,4 +1,4 @@
-package subsetsum;
+package subsetssum;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -24,39 +24,51 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * Created by ellison on 28/07/16.
  */
-public class SubSetSumNumberFromMyMindToJava7 {
+public class SubSetSumProblem {
 
-    private static final int SUM = 1200;
+    private static final int SUM_X = 28;
 
     public static void main(String... args) {
-        SubSetSumNumberFromMyMindToJava7 subSetSumNumberFromMyMindToJava7 = new SubSetSumNumberFromMyMindToJava7();
+        SubSetSumProblem subSetSumProblem = new SubSetSumProblem();
         if (args.length > 0) {
             Integer[] argsAsInteger = new Integer[args.length];
             for (int i = 0; i < args.length; i++)
                 argsAsInteger[i] = Integer.parseInt(args[i]);
-            subSetSumNumberFromMyMindToJava7.challengeAccepted(argsAsInteger);
+            subSetSumProblem.challengeAccepted(argsAsInteger);
         } else {
-            subSetSumNumberFromMyMindToJava7.challengeAccepted(new Integer[]{2, 8, 3, 9, 11});
+
+            subSetSumProblem.challengeAccepted(new Integer[]{2, 8, 3, 9, 11, 6});
             // [11, 9, 8] = 28
 
-            subSetSumNumberFromMyMindToJava7.challengeAccepted(new Integer[]{2, 8, 3, 9, 11, 12, 13, 15, 20});
+            subSetSumProblem.challengeAccepted(new Integer[]{2, 8, 3, 9, 11, 12, 13, 15, 20});
             // [20, 8] = 28
             // [15, 13] = 28
             // [13, 12, 3] = 28
             // [12, 11, 3, 2] = 28
             // [11, 9, 8] = 28
 
-            subSetSumNumberFromMyMindToJava7.challengeAccepted(new Integer[]{2, 8, 3, 9, 11, 12, -1, -2, 15, 30, 38});
+            subSetSumProblem.challengeAccepted(new Integer[]{2, 8, 3, 9, 11, 12, -1, -2, 15, 30, 38});
             // [30, -2] = 28
 
-            final int BIG_ARRAY = 1000;
+            subSetSumProblem.challengeAccepted(new Integer[]
+                    {
+                            1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                            11, 12 ,13 ,14, 15, 16, 17, 18, 19, 20,
+                            21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                            31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+                            41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+                            51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,
+                    }
+            );
+
+            /*final int BIG_ARRAY = 1000;
             Integer[] bigSet = new Integer[BIG_ARRAY];
             Random random = new Random();
             for (int i = 0; i < BIG_ARRAY; i++) {
-                bigSet[i] = random.nextInt(SUM);
+                bigSet[i] = random.nextInt(SUM_X);
             }
 
-            subSetSumNumberFromMyMindToJava7.challengeAccepted(bigSet);
+            subSetSumProblem.challengeAccepted(bigSet);*/
         }
     }
 
@@ -76,33 +88,31 @@ public class SubSetSumNumberFromMyMindToJava7 {
         System.out.println(String.format("Total time running: %d seconds", TimeUnit.SECONDS.convert(duration, TimeUnit.NANOSECONDS)));
     }
 
-    private int[][] subSetSumNumbers(final Integer[] numbersSet) {
-        Arrays.sort(numbersSet, Collections.reverseOrder());
-        Set<int[]> finalResult = new LinkedHashSet<>();
-        int maxPossibleSum = 0;
-        for (int i = 0; i < numbersSet.length - 1; i++) {
-            int[] filter = new int[numbersSet.length];
-            filter[i] = numbersSet[i];
-            int index = i + 1;
-            while (index < numbersSet.length) {
-                filter[index] = numbersSet[index];
-                boolean invalidSum = !((sum(filter)) < SUM);
-                if (invalidSum)
-                    filter[index] = 0;
-                index++;
+    int[][] subSetSumNumbers(final Integer[] numbers) {
+        Integer[] numbersCopy = Arrays.copyOf(numbers, numbers.length);
+        Arrays.sort(numbersCopy, Collections.reverseOrder());
+
+        Set<int[]> validCombinations = new LinkedHashSet<>();
+
+        while (numbersCopy.length > 0) {
+            int actualComparingBase = 0;
+            int[] combinations = new int[numbersCopy.length];
+            combinations[actualComparingBase] = numbersCopy[actualComparingBase];
+
+            for (int j = actualComparingBase + 1; j < numbersCopy.length; j++) {
+                combinations[j] = numbersCopy[j];
+                int sum = sum(combinations);
+
+                if (sum > SUM_X)
+                    combinations[j] = 0;
+                else if (sum == SUM_X)
+                    validCombinations.add(removeZeros(Arrays.copyOf(combinations, combinations.length)));
             }
-            int actualSetSum = sum(filter);
-            if (actualSetSum < SUM) {
-                // This logic is possible because the numbersSet is ordered (reverse order)
-                // So, the first array sum elements will always be closest from SUM.
-                if (finalResult.isEmpty()) {
-                    maxPossibleSum = actualSetSum;
-                    finalResult.add(removeZeros(filter));
-                } else if (actualSetSum == maxPossibleSum)
-                    finalResult.add(removeZeros(filter));
-            }
+
+            numbersCopy = Arrays.copyOfRange(numbersCopy, 1, numbersCopy.length);
         }
-        return finalResult.toArray(new int[][]{});
+
+        return validCombinations.toArray(new int[][]{});
     }
 
     private int[] removeZeros(final int[] array) {
