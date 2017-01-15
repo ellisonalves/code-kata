@@ -18,7 +18,7 @@ public class SubsetSumProblemTest {
 
         Integer[] emptyExpected = new Integer[]{};
 
-        Set<Integer[]> subsetReturned = subsetSumProblem.subSetSumNumbers(new Integer[]{1});
+        Set<Integer[]> subsetReturned = subsetSumProblem.getSubsetsBySum(new Integer[]{1});
 
         Assert.assertThat(subsetReturned, hasItem(emptyExpected));
     }
@@ -31,7 +31,9 @@ public class SubsetSumProblemTest {
 
         SubsetSumProblem subsetSumProblem = new SubsetSumProblem(SUM_X);
 
-        Set<Integer[]> subsetReturned = subsetSumProblem.subSetSumNumbers((new Integer[]{2, 8, 3, 9, 11}));
+        Set<Integer[]> subsetReturned = subsetSumProblem.getSubsetsBySum((new Integer[]{2, 8, 3, 9, 11}));
+
+        Assert.assertEquals(1, subsetReturned.size());
 
         Assert.assertThat(subsetReturned, hasItem(subsetExpected));
     }
