@@ -1,6 +1,6 @@
-package com.ellisonalves.arrays;
+package com.ellisonalves.arrays.onedimension;
 
-public class SingleDimensionArray implements MyArray {
+public class SingleDimensionArray {
 
     private int[] elements;
 
@@ -11,27 +11,22 @@ public class SingleDimensionArray implements MyArray {
         }
     }
 
-    @Override
     public int accessElement(int element) {
         return new AccessElementInArray(elements, element).execute();
     }
 
-    @Override
     public int searchElement(int index) {
         return new SearchElementInArray(elements, index).execute();
     }
 
-    @Override
     public boolean deleteElement(int index) {
         return new DeleteElementInArray(elements, index).execute();
     }
 
-    @Override
     public boolean insertElement(int position, int element) {
         return new InsertElementInArray(elements, position, element).execute();
     }
 
-    @Override
     public String traverse() {
         return new TraverseElementsInArray(elements).execute() + "\n\n";
     }

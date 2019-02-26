@@ -1,6 +1,6 @@
 package com.ellisonalves.main;
 
-import com.ellisonalves.arrays.SingleDimensionArray;
+import com.ellisonalves.arrays.onedimension.SingleDimensionArray;
 
 public class ArraysMain {
 
