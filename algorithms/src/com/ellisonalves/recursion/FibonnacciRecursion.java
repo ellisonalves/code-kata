@@ -1,10 +1,16 @@
 package com.ellisonalves.recursion;
 
-import com.ellisonalves.Algorithm;
+public class FibonnacciRecursion {
 
-public class FibonnacciRecursion implements Algorithm<Integer> {
-    @Override
-    public Integer execute() {
-        return null;
+    private int fibbonacci(int number) {
+        if ((number == 0) || (number == 1))
+            return number;
+        else
+            return fibbonacci(number - 1) + fibbonacci(number - 2);
+    }
+
+    public static void main(String... args) {
+        FibonnacciRecursion fr = new FibonnacciRecursion();
+        System.out.println(">>> Fibbonacci: " + fr.fibbonacci(8));
     }
 }
