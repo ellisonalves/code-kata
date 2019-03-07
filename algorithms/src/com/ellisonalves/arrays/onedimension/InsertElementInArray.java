@@ -1,4 +1,4 @@
-package com.ellisonalves.arrays;
+package com.ellisonalves.arrays.onedimension;
 
 import com.ellisonalves.Algorithm;
 
